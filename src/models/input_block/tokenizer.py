@@ -4,9 +4,9 @@ from tiktoken import Encoding, get_encoding
 
 class LlamaTokenizer: 
     
-    def __init__(self, model_path: str = "cl100k_base"): 
+    def __init__(self, model_name: str = "cl100k_base"): 
         # get vocab size of tokennizer base model
-        model_base = get_encoding(model_path)
+        model_base = get_encoding(model_name)
         
         vocab_size = len(model_base._mergeable_ranks) + len(model_base._special_tokens)
         
@@ -15,6 +15,9 @@ class LlamaTokenizer:
         
         # setup special tokens 
         special_tokens = ['<|beginoftext|>','<|pad_id|>']
+        self.bot_token = special_tokens[0]
+        self.pad_token = special_tokens[1]
+        self.eot_token = '<|endoftext|>'
         
         self.special_tokens = model_base._special_tokens
         self.special_tokens.update({
@@ -22,7 +25,7 @@ class LlamaTokenizer:
         })
         
         self.model = Encoding(
-            name = model_path, 
+            name = model_name, 
             pat_str= pat_str,
             special_tokens = self.special_tokens, 
             mergeable_ranks= model_base._mergeable_ranks
@@ -38,7 +41,7 @@ class LlamaTokenizer:
 
 
 if __name__ == "__main__": 
-    
+      
     def test_tokenizer(): 
         tokenizer = LlamaTokenizer()
         

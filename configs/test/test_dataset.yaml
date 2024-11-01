@@ -1,0 +1,9 @@
+dataset: 
+  data_split: 
+    name: Salesforce/wikitext
+    version: wikitext-2-v1]
+    split: test
+  tokenizer:
+    model_name: cl100k_base
+  input_len: 324
+  output_len: 96
