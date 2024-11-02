@@ -1,0 +1,7 @@
+datamodule: 
+  data_name: Salesforce/wikitext
+  data_version: wikitext-2-v1
+  tokenizer: 
+    model_name: cl100k_base
+  input_len: 324
+  output_len: 96

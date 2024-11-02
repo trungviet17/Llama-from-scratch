@@ -68,7 +68,9 @@ class WikiTextDataset(Dataset):
         self.data_split = self.data_split.map(self.transform_data)
         self.input_ids, self.next_token = self.flatten_datapoints()
     
-    
+
+
+
 if __name__ == "__main__":
     import hydra 
     from omegaconf import DictConfig, OmegaConf
@@ -78,15 +80,16 @@ if __name__ == "__main__":
     pyrootutils.setup_root(__file__, indicator = ".project-root", pythonpath = True)
     path = pyrootutils.find_root(search_from=__file__, indicator = '.project-root')
     config_path = str(path/ 'config' /'test')
+    cache_dir = str(path / 'cache')
 
     @hydra.main(config_path=config_path, config_name="test_dataset.yaml")
     def test(cfg: DictConfig):
         
         dataset_cfg = OmegaConf.structured(WikiTextDatasetConfig(**cfg.dataset))
 
-        wikitext = load_dataset(dataset_cfg.data_split.name, dataset_cfg.data_split.version)
+        wikitext = load_dataset(dataset_cfg.data_split.name, dataset_cfg.data_split.version, cache_dir=cache_dir)
         tokenizer = LlamaTokenizer(model_name=dataset_cfg.tokenizer.model_name)
-        # Initialize the dataset
+
         dataset = WikiTextDataset(
             data_split=wikitext[dataset_cfg.data_split.split],
             tokenizer=tokenizer,
@@ -94,7 +97,13 @@ if __name__ == "__main__":
             input_len=dataset_cfg.input_len
         )
         
-        print("Dataset initialized successfully")
+        print("DATASET INIT PASSED")
+
+        print(len(dataset))
+
+        print(dataset[0])
+
+        print("DATASET TEST PASSED")
 
 
     test()

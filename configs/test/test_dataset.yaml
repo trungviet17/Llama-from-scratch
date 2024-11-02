@@ -1,7 +1,7 @@
 dataset: 
   data_split: 
     name: Salesforce/wikitext
-    version: wikitext-2-v1]
+    version: wikitext-2-v1
     split: test
   tokenizer:
     model_name: cl100k_base
