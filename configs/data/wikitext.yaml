@@ -1,0 +1,10 @@
+_target_: src.data.wikitext_datamodule.WikitextDataModule
+data_name: Salesforce/wikitext  
+data_version: wikitext-2-v1
+tokenizer: 
+  _target_: src.models.input_block.tokenizer.LlamaTokenizer
+  model_name: cl100k_base
+input_len: 324
+output_len: 96
+batch_size: 8 
+num_workers: 4 

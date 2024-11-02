@@ -5,7 +5,11 @@ from datasets import load_dataset
 from models.input_block.tokenizer import LlamaTokenizer
 from .components.wikitext_dataset import WikiTextDataset
 from dataclasses import dataclass
+import pyrootutils
 
+
+pyrootutils.setup_root(__file__, indicator = ".project-root", pythonpath = True)
+path = pyrootutils.find_root(search_from=__file__, indicator = '.project-root')
 
 @dataclass
 class WikiTextDataModuleConfig: 
@@ -14,8 +18,8 @@ class WikiTextDataModuleConfig:
     tokenizer: LlamaTokenizer
     input_len: int
     output_len: int
-    batch_size: int = 64
-    num_workers: int = 0
+    batch_size: int = 8 
+    num_workers: int = 4
 
 
 class WikiTextDataModule(pl.LightningDataModule):
@@ -28,7 +32,8 @@ class WikiTextDataModule(pl.LightningDataModule):
 
     def prepare_data(self):
         # download dataset 
-        self.wikitext = load_dataset(self.hparams.data_name, self.hparams.data_version)
+        cache_path = str(path / 'cache')
+        self.wikitext = load_dataset(self.hparams.data_name, self.hparams.data_version, cache_dir=cache_path)
 
 
     def setup(self, stage: Optional[str] = None):
@@ -65,10 +70,7 @@ class WikiTextDataModule(pl.LightningDataModule):
 if __name__ == '__main__':
     import hydra
     from omegaconf import DictConfig, OmegaConf
-    import pyrootutils
 
-    pyrootutils.setup_root(__file__, indicator = ".project-root", pythonpath = True)
-    path = pyrootutils.find_root(search_from=__file__, indicator = '.project-root')
     config_path = str(path/ 'config' /'test')
 
     @hydra.main(config_path=config_path, config_name="test_datamodule.yaml")
