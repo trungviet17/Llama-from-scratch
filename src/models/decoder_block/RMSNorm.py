@@ -48,6 +48,4 @@ if __name__ == '__main__':
         assert x_norm.shape == x.shape, f"Shape must be the same, but got {x_norm.shape} instead"
         print("Test passed")
 
-
-
     test()

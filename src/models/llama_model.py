@@ -3,7 +3,7 @@ from typing import Optional
 
 @dataclass
 class ModelConfig: 
-    dim: int = 512
+    n_dim: int = 512 # number of embedding dimension 
     n_layers: int = 8 
     n_heads : int = 8 
     n_kv_heads: int = 4 
