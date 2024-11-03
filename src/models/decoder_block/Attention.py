@@ -2,20 +2,20 @@ import torch.nn as nn
 import torch  
 from src.models.decoder_block.RoPEncoding import RoPEncoding
 import math
-from src.models.llama_model import ModelConfig
 from torch.nn.functional import softmax
+from  src.models.decoder_block.RMSNorm import RMSNorm
 
 class GroupQueryAttention(nn.Module): 
 
-    def __init__(self, args: ModelConfig): 
+    def __init__(self, n_dim: int, n_heads: int, n_kv_heads: int, batch_size: int, seq_len: int): 
         super(GroupQueryAttention, self).__init__()
 
-        self.dim = args.n_dim
-        self.n_heads = args.n_heads
-        self.n_kv_heads = args.n_kv_heads
-        self.head_dim = args.n_dim // args.n_heads # chiều của một head 
+        self.dim = n_dim
+        self.n_heads = n_heads
+        self.n_kv_heads = n_kv_heads
+        self.head_dim = n_dim // n_heads # chiều của một head 
 
-        self.n_query = args.n_heads // args.n_kv_heads # số lượng query mỗi head 
+        self.n_query = n_heads // n_kv_heads # số lượng query mỗi head 
 
         # key, value, query 
         self.wq = nn.Linear(
@@ -37,10 +37,10 @@ class GroupQueryAttention(nn.Module):
 
         # store cache 
         self.cache_k = torch.zeros(
-            (args.batch_size, args.seq_len, self.n_kv_heads, self.head_dim)
+            (batch_size, seq_len, self.n_kv_heads, self.head_dim)
         )
         self.cache_v = torch.zeros(
-            (args.batch_size, args.seq_len, self.n_kv_heads, self.head_dim)
+            (batch_size, seq_len, self.n_kv_heads, self.head_dim)
         )
 
     def forward(self, x: torch.Tensor, start_pos: int = 0, is_infer: bool = False ):
@@ -121,9 +121,6 @@ class GroupQueryAttention(nn.Module):
 if __name__ == "__main__":
 
     def test(): 
-        att = GroupQueryAttention(ModelConfig())
-
-
         pass 
 
 
