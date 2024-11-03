@@ -49,19 +49,22 @@ class RoPEncoding:
 
 
 if __name__ == "__main__": 
-    n_dim = 512
-    seq_len = 100
-    theta = 10000.0
 
-    print("Test RoPEncoding")
-    xq = torch.randn(1, seq_len, n_dim)
-    xk = torch.randn(1, seq_len, n_dim)
-    
-    rope = RoPEncoding(n_dim, seq_len, theta)
-    xq_out, xk_out = rope(xq, xk)
+    def test(): 
+        # config
+        n_dim = 512
+        seq_len = 100
+        theta = 10000.0
 
-    print(xq_out.shape, xk_out.shape)
+        print("Test RoPEncoding")
+        xq = torch.randn(1, seq_len, n_dim)
+        xk = torch.randn(1, seq_len, n_dim)
 
-         
+        rope = RoPEncoding(n_dim, seq_len, theta)
+        xq_out, xk_out = rope(xq, xk)
+
+        print(xq_out.shape, xk_out.shape)
+
+    test()
 
 
