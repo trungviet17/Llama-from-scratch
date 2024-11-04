@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
 import torch.nn as nn 
-from src.models.decoder_block.RoPEncoding import RoPEncoding
 from src.models.decoder_block.RMSNorm import RMSNorm
 from src.models.decoder_block.FeedForward import FeedForward
 from src.models.decoder_block.Attention import GroupQueryAttention
@@ -93,5 +92,5 @@ if __name__ == "__main__":
         pass
 
 
-    
+
         
